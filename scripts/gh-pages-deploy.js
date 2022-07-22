@@ -4,6 +4,12 @@ const fs = require("fs");
 (async () => {
   try {
     await execa("git", ["diff-index", "--quiet", "HEAD", "--"]);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log("Branch is dirty and this script will lose unstaged changes.");
+    process.exit(1);
+  }
+  try {
     await execa("git", ["checkout", "--orphan", "gh-pages"]);
     // eslint-disable-next-line no-console
     console.log("Building started...");
